@@ -14,17 +14,17 @@ class PasswordController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    // public function __construct()
-    // {
-    //     $this->middleware('auth');
-    // }
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
 
 
     public function index()
     {
         $user_id = auth()->user()->id;
         $passwords = Password::where('user_id', $user_id)->paginate(10);
-        return view('passwords.index', ['passwords' => $passwords]);
+        return view('password.index', ['passwords' => $passwords]);
     }
 
     /**
@@ -34,7 +34,7 @@ class PasswordController extends Controller
      */
     public function create()
     {
-        return view('passwords.create');
+        return view('password.create');
     }
 
     /**
@@ -61,9 +61,9 @@ class PasswordController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Password $password)
     {
-        //
+        return view('password.show', ['password' => $password]);
     }
 
     /**
@@ -72,9 +72,9 @@ class PasswordController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Password $password)
     {
-        //
+        return view('password.edit', ['password' => $password]);
     }
 
     /**
@@ -84,9 +84,16 @@ class PasswordController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Password $password)
     {
-        //
+        if (!$password->user_id == auth()->user()->id) {
+            return view('acesso-negado');
+        }
+        $password->update([
+            'name' => $request->input('name'),
+            'user_name' => $request->input('user_name'),
+            'password' => Crypt::encrypt($request->input('password')),
+        ]);
     }
 
     /**
@@ -95,8 +102,13 @@ class PasswordController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Password $password)
     {
-        //
+        if (!$password->user_id == auth()->user()->id) {
+            return view('acesso-negado');
+        }
+
+        $password->delete();
+        return redirect()->route('password.index');
     }
 }

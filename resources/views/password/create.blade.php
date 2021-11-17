@@ -33,7 +33,7 @@
                             <button type="submit" class="btn btn-primary">Salvar</button>
                         </form>
                         <br>
-                        @component('passwords._modals.password-generate')
+                        @component('password._modals.password-generate')
                             
                         @endcomponent
                     </div>

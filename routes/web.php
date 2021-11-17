@@ -22,3 +22,5 @@ Auth::routes();
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 Route::resource('password','App\Http\Controllers\PasswordController');
+
+Route::resource('user','App\Http\Controllers\UserController');
