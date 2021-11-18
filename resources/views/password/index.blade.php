@@ -83,7 +83,14 @@
 @endsection
 
 <script>
-    function copytext($password) {
-        navigator.clipboard.writeText($password)
+    async function copytext($password) {
+        try {
+            await navigator.clipboard.writeText($password);
+        } catch (err) {
+            console.error('Failed to copy: ', err);
+        }
     }
+    // function copytext($password) {
+    //     navigator.clipboard.writeText($password)
+    // }
 </script>

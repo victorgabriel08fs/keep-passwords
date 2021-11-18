@@ -44,11 +44,23 @@
         passfield.value = password;
     }
 
-    function copytext() {
-        navigator.clipboard.writeText(password);
+    // function copytext() {
+    //     navigator.clipboard.writeText(password);
+    //     info.style.opacity = "1";
+    //     setTimeout(function() {
+    //         info.style.opacity = "0"
+    //     }, 1500)
+    // }
+    
+    async function copytext() {
+        try {
+        await navigator.clipboard.writeText(password);
         info.style.opacity = "1";
         setTimeout(function() {
             info.style.opacity = "0"
         }, 1500)
+        } catch (err) {
+        console.error('Failed to copy: ', err);
+        }
     }
 </script>
